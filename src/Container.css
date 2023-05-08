@@ -1,0 +1,18 @@
+.container-box {
+  height: calc(100vh - 64px - 20px);
+  display: flex;
+}
+
+.container-left {
+  width: 256px;
+  background-color: #aaa;
+}
+
+.container-center {
+  flex: 1 1 auto;
+}
+
+.container-right {
+  width: 56px;
+  background-color: #aaa;
+}
