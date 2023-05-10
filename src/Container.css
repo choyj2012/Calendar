@@ -5,14 +5,38 @@
 
 .container-left {
   width: 256px;
-  background-color: #aaa;
 }
 
 .container-center {
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgray;
 }
 
+.weeks {
+  display: flex;
+}
+
+.week {
+  flex: 1 1 auto;
+  text-align: center;
+  border-right: 0.5px solid lightgray;
+  border-left: 0.5px solid lightgray;
+}
+
+.date {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .container-right {
   width: 56px;
-  background-color: #aaa;
 }

@@ -25,3 +25,5 @@ const getCalendar = (year, month) => {
 
   return cal;
 }
+
+export { getCalendar };
