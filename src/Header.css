@@ -1,6 +1,13 @@
+button {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+}
+
 .header-box {
   height: 64px;
   border-bottom: 1px solid #aaa;
+  font-size: 1.5rem;
 }
 
 .header-contents {
@@ -8,6 +15,49 @@
   height: 100%;
   display: flex;
   padding: 8px;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  display: flex;
+  min-width: 238px;
+  align-items: center;
+}
+
+.left-menu-btn {
+  width: 40px;
+  height: 40px;
+  font-size: inherit;
+  border: none;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  flex: 1 0 auto;
+  min-width: fit-content;
+}
+
+.sb-b {
+  display: flex;
+}
+.sb-b > * {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.user-menu {
+  display: flex;
+  padding-left: 40px;
+  justify-content: flex-end;
+}
+
+.menu-icon {
+  padding: 8px;
+}
+.user-icon {
+  padding: 8px;
 }
