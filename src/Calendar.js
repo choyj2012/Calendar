@@ -34,7 +34,7 @@ const getCalendar = (year, month) => {
     addDate({date: i, month: 'next'});
   }
 
-  console.log(cal);
+  //console.log(cal);
   return cal;
 }
 
