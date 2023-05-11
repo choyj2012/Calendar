@@ -9,13 +9,14 @@ const addDate = (dateObj) => {
   }
 }
 
+//month -> 0 ~ 11
 const getCalendar = (year, month) => {
   cal = [];  tmp = [];
-  let prevM = new Date(year, month-1, 0);
+  let prevM = new Date(year, month, 0);
   let prevDay = prevM.getDay(); //저번 달 마지막 요일
   let prevDate = prevM.getDate(); //저번 달 마지막 날짜
 
-  let curM = new Date(year, month, 0);
+  let curM = new Date(year, month + 1, 0);
   let endDate = curM.getDate(); //이번 달 마지막 날짜
   let endDay = curM.getDay(); //이번 달 마지막 요일
 
