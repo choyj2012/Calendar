@@ -1,11 +1,11 @@
 import "./Container.css"
 import { getCalendar } from "./Calendar"
 
-export default function Container() {
+export default function Container({ym}) {
   return (
     <div className="container-box">
       <LeftContainer />
-      <CenterContainer />
+      <CenterContainer ym={ym}/>
       <RightContainer />
     </div>
   )
@@ -15,11 +15,12 @@ const LeftContainer = () => {
   return <div className="container-left">Left</div>
 }
 
-const CenterContainer = () => {
+const CenterContainer = ({ym : {year, month}}) => {
+  const cal = getCalendar(year, month);
   return (
     <div className="container-center">
       <Days />
-      <Month/>
+      <Month cal={cal}/>
     </div>
   )
 }
@@ -38,8 +39,7 @@ const Days = () => {
   )
 }
 
-const Month = () => {
-  const cal = getCalendar(2023, 5);
+const Month = ({cal}) => {
   return (
     <div className="month">
       {cal.map((week, i) => {

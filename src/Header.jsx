@@ -1,18 +1,18 @@
 import "./Header.css";
 
-export default function Header() {
+export default function Header({onChangeMonth, ym}) {
   return (
     <header className="header-box">
-      <HeaderContents />
+      <HeaderContents onChangeMonth={onChangeMonth} ym={ym}/>
     </header>
   )
 }
 
-const HeaderContents = () => {
+const HeaderContents = ({onChangeMonth, ym}) => {
   return (
     <div className="header-contents">
       <Logo />
-      <Search />
+      <Search onChangeMonth={onChangeMonth} ym={ym}/>
       <UserMenu />
     </div>
   )
@@ -27,14 +27,14 @@ const Logo = () => {
   )
 }
 
-const Search = () => {
-  let today = new Date().toLocaleDateString('ko-kr');
+const Search = ({onChangeMonth, ym : {year, month}}) => {
+  let today = `${year}년 ${month+1}월`;
   return (
     <div className="search-bar">
       <div className="sb-b">
         <button>Today</button>
-        <button>{"<"}</button>
-        <button>{">"}</button>
+        <button onClick={() => onChangeMonth(-1)}>{"<"}</button>
+        <button onClick={() => onChangeMonth(1)}>{">"}</button>
         <div>{today}</div>
       </div>
       <div className="sb-b">
