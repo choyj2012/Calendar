@@ -53,6 +53,13 @@
   font-size: 1rem;
 }
 
+.select-drop {
+  border: solid 0.5px lightgray;
+  border-radius: 10%;
+  padding: 10px;
+  font-size: 1rem;
+}
+
 .user-menu {
   display: flex;
   padding-left: 40px;
@@ -62,6 +69,7 @@
 .menu-icon {
   padding: 8px;
 }
+
 .user-icon {
   padding: 8px;
 }

@@ -58,7 +58,7 @@ const Search = ({ym : {year, month}, setYM}) => {
       <div className="sb-b">
         <button>Search</button>
         <button>Setting</button>
-        <select>
+        <select className="select-drop">
           <option value="month">월</option>
         </select>
       </div>
