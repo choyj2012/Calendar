@@ -14,29 +14,47 @@
   border: 1px solid lightgray;
 }
 
-.weeks {
+.days {
   display: flex;
-}
-
-.week {
-  flex: 1 1 auto;
-  text-align: center;
-  border-right: 0.5px solid lightgray;
-  border-left: 0.5px solid lightgray;
-}
-
-.date {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(100px, auto);
+  flex-direction: row;
+  flex: 0 0 auto;
 }
 
 .day {
+  flex: 1 1 0;
+  text-align: center;
+  border-right: 0.5px solid lightgray;
+  border-left: 0.5px solid lightgray;
+  padding-top: 8px;
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+
+.week {
+  display: flex;
+  flex: 1 1 0;
+}
+
+.date {
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  border: 0.5px solid lightgray;
+  padding-top: 8px;
 }
+
+.basic {opacity: 1;}
+.light {opacity: 0.5;}
+.weekday {color: black;}
+.sun {color: red;}
+.sat {color: blue;}
+
 .container-right {
   width: 56px;
 }

@@ -18,40 +18,56 @@ const LeftContainer = () => {
 const CenterContainer = () => {
   return (
     <div className="container-center">
-      <Weeks />
-      <Date/>
+      <Days />
+      <Month/>
     </div>
   )
 }
 
-const Weeks = () => {
-  const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const Days = () => {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   return (
-    <div className="weeks">
-      {week.map(day => {
-        return <div key={day} className="week">{day}</div>
+    <div className="days">
+      {days.map((day, i) => {
+        let dayColor = 'weekday';
+        if(i === 0) dayColor = 'sun';
+        if(i === 6) dayColor = 'sat';
+        return <div key={day} className={"day " + dayColor}>{day}</div>
       })}
     </div>
   )
 }
 
-const Date = () => {
+const Month = () => {
   const cal = getCalendar(2023, 5);
   return (
-    <div className="date">
-      {
-        cal.map((date) => {
-          return <Day date={date}/>
-        })
-      }
+    <div className="month">
+      {cal.map((week, i) => {
+          return <Week key={i} week={week}/>
+        })}
     </div>
   )
 }
 
-const Day = ({date}) => {
+const Week = ({week}) => {
   return (
-    <div className="day">
-      <div>{date}</div>
+    <div className="week">
+      {week.map((date, i) => <Date key={i} date={date} day={i}/>)}
+    </div>
+  )
+}
+
+const Date = ({date, day}) => {
+  let dayColor = 'weekday', numColor = 'basic';
+  if(date.month !== 'curr') numColor = 'light';
+  if(day === 0) dayColor = 'sun';
+  if(day === 6) dayColor = 'sat';
+
+  return (
+    <div className="date">
+      <div className={dayColor + ' ' + numColor}>
+        {date.date}
+      </div>
     </div>
   )
 }
