@@ -53,6 +53,11 @@
   font-size: 1rem;
 }
 
+.sb-b > button:hover {
+  background-color: lightgray;
+  border-color: black;
+}
+
 .select-drop {
   border: solid 0.5px lightgray;
   border-radius: 10%;
