@@ -10,10 +10,12 @@ function App() {
     month: new Date().getMonth()
   })
 
+  const [isLeftOpen, setIsLeftOpen] = useState(true);
+
   return (
     <div className="wrap">
-      <Header ym={ym} setYM={setYM}/>
-      <Container ym={ym}/>
+      <Header ym={ym} setYM={setYM} setIsLeftOpen={setIsLeftOpen}/>
+      <Container ym={ym} isLeftOpen={isLeftOpen}/>
       <Footer />
     </div>
   )

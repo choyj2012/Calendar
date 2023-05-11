@@ -1,18 +1,20 @@
 import "./Container.css"
 import { getCalendar } from "./Calendar"
 
-export default function Container({ym}) {
+export default function Container({ym, isLeftOpen}) {
   return (
     <div className="container-box">
-      <LeftContainer />
+      <LeftContainer isLeftOpen={isLeftOpen}/>
       <CenterContainer ym={ym}/>
       <RightContainer />
     </div>
   )
 }
 
-const LeftContainer = () => {
-  return <div className="container-left">Left</div>
+const LeftContainer = ({isLeftOpen}) => {
+  let className = 'container-left';
+  className += isLeftOpen ? ' left-open' : '';
+  return <div className={className}>Left</div>
 }
 
 const CenterContainer = ({ym : {year, month}}) => {

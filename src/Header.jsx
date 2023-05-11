@@ -1,27 +1,33 @@
 import "./Header.css";
 
-export default function Header({ym, setYM}) {
+export default function Header({ym, setYM, setIsLeftOpen}) {
   return (
     <header className="header-box">
-      <HeaderContents ym={ym} setYM={setYM}/>
+      <HeaderContents ym={ym} setYM={setYM}
+        setIsLeftOpen={setIsLeftOpen}
+        />
     </header>
   )
 }
 
-const HeaderContents = ({ym, setYM}) => {
+const HeaderContents = ({ym, setYM, setIsLeftOpen}) => {
   return (
     <div className="header-contents">
-      <Logo />
+      <Logo setIsLeftOpen={setIsLeftOpen}/>
       <Search ym={ym} setYM={setYM}/>
       <UserMenu />
     </div>
   )
 }
 
-const Logo = () => {
+const Logo = ({setIsLeftOpen}) => {
+  const handleLeftMenu = () => setIsLeftOpen(p => !p);
   return (
     <div className="logo">
-      <button className="left-menu-btn">=</button>
+      <button className="left-menu-btn"
+        onClick={handleLeftMenu}
+        >=
+      </button>
       <h1>Calendar</h1>
     </div>
   )
