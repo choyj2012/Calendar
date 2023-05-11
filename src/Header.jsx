@@ -1,18 +1,18 @@
 import "./Header.css";
 
-export default function Header({onChangeMonth, ym}) {
+export default function Header({ym, setYM}) {
   return (
     <header className="header-box">
-      <HeaderContents onChangeMonth={onChangeMonth} ym={ym}/>
+      <HeaderContents ym={ym} setYM={setYM}/>
     </header>
   )
 }
 
-const HeaderContents = ({onChangeMonth, ym}) => {
+const HeaderContents = ({ym, setYM}) => {
   return (
     <div className="header-contents">
       <Logo />
-      <Search onChangeMonth={onChangeMonth} ym={ym}/>
+      <Search ym={ym} setYM={setYM}/>
       <UserMenu />
     </div>
   )
@@ -27,12 +27,30 @@ const Logo = () => {
   )
 }
 
-const Search = ({onChangeMonth, ym : {year, month}}) => {
+const Search = ({ym : {year, month}, setYM}) => {
   let today = `${year}년 ${month+1}월`;
+
+  const onChangeMonth = (n) => {
+    console.log("click");
+    let newYM = {year, month};
+    newYM.month += n;
+    if(newYM.month > 11) newYM.year += 1;
+    if(newYM.month < 0) newYM.year -= 1;
+    newYM.month = (newYM.month + 12) % 12;
+    setYM(newYM);
+  }
+
+  const goToday = () => {
+    setYM({
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()
+    });
+  }
+
   return (
     <div className="search-bar">
       <div className="sb-b">
-        <button>Today</button>
+        <button onClick={goToday}>Today</button>
         <button onClick={() => onChangeMonth(-1)}>{"<"}</button>
         <button onClick={() => onChangeMonth(1)}>{">"}</button>
         <div>{today}</div>
