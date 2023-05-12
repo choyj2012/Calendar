@@ -20,12 +20,16 @@
   flex-direction: column;
   border: 1px solid lightgray;
   margin-left: 8px;
+
+  transition: flex-basis 1s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 
 .days {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
+
+  transition: inherit;
 }
 
 .day {
@@ -33,18 +37,22 @@
   text-align: center;
   border-right: 0.5px solid lightgray;
   border-left: 0.5px solid lightgray;
-  padding-top: 8px;
+  padding: 4px 0 4px 0;
+
+  transition: inherit;
 }
 
 .month {
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
+  transition: inherit;
 }
 
 .week {
   display: flex;
   flex: 1 1 0;
+  transition: inherit;
 }
 
 .date {
@@ -55,6 +63,12 @@
   align-items: center;
   border: 0.5px solid lightgray;
   padding-top: 8px;
+
+  transition: inherit;
+}
+
+.date:hover { 
+  background-color: lightblue;
 }
 
 .basic {opacity: 1;}
@@ -65,4 +79,12 @@
 
 .container-right {
   width: 56px;
+}
+
+.selected-width{
+  flex-basis: 40%;
+}
+
+.selected-height{
+  flex-basis: 50%;
 }
