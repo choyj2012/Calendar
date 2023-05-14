@@ -104,7 +104,7 @@ const Week = ({
           selectedDate = true;
 
         return (
-          <Date
+          <DateComp
             key={i}
             weekNum={weekNum}
             date={date}
@@ -118,12 +118,13 @@ const Week = ({
   );
 };
 
-const Date = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
-  let dayColor = "weekday",
-    numColor = "basic";
-  if (date.month !== "curr") numColor = "light";
-  if (day === 0) dayColor = "sun";
-  if (day === 6) dayColor = "sat";
+const DateComp = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
+  let className = ['weekday', 'basic', 'date-num'];
+ 
+  if (day === 0) className[0] = 'sun';
+  if (day === 6) className[0] = 'sat';
+  if (date.month !== "curr") className[1] = "light";
+  if (new Date().getDate() == date.date) className.push('today');
 
   const handleClick = () => {
     setSelectedCord((cord) => {
@@ -143,7 +144,7 @@ const Date = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
       className={"date" + (selectedDate ? " selected-width" : "")}
       onClick={handleClick}
     >
-      <div className={dayColor + " " + numColor}>{date.date}</div>
+      <div className={className.join(' ')}>{date.date}</div>
     </div>
   );
 };

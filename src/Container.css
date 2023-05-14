@@ -71,12 +71,20 @@
   background-color: lightblue;
 }
 
+.date-num {
+  border-radius: 100%;
+  padding: 7px;
+}
+
 .basic {opacity: 1;}
 .light {opacity: 0.5;}
 .weekday {color: black;}
 .sun {color: red;}
 .sat {color: blue;}
-
+.today {
+  background-color: rgba(25,115,232,1);
+  color: white;
+}
 .container-right {
   width: 56px;
 }
