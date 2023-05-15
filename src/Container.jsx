@@ -22,7 +22,7 @@ const LeftContainer = ({ isLeftOpen }) => {
 const CenterContainer = () => {
   const {year, month} = useContext(CurrYmContext);
   const cal = getCalendar(year, month-1);
-  
+
   const [selectedCord, setSelectedCord] = useState({
     isSelected: false,
     x: 0,
@@ -102,9 +102,12 @@ const Week = ({
   return (
     <div className={"week" + (selectedWeek ? " selected-height" : "")}>
       {week.map((date, i) => {
-        let selectedDate = false;
-        if (selectedCord.isSelected && selectedCord.x === i)
-          selectedDate = true;
+        let isSelectedDay = false;
+        let isSelectedDate = false;
+        if (selectedCord.isSelected && selectedCord.x === i){
+          isSelectedDay = true;
+          if(selectedWeek) isSelectedDate = true;
+        }
 
         return (
           <DateComp
@@ -113,7 +116,8 @@ const Week = ({
             date={date}
             day={i}
             setSelectedCord={setSelectedCord}
-            selectedDate={selectedDate}
+            isSelectedDay={isSelectedDay}
+            isSelectedDate={isSelectedDate}
           />
         );
       })}
@@ -121,7 +125,7 @@ const Week = ({
   );
 };
 
-const DateComp = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
+const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelectedDate }) => {
   const {year, month} = useContext(CurrYmContext);
 
   let className = ['weekday', 'light', 'date-num'];
@@ -149,7 +153,7 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
 
   return (
     <div
-      className={"date" + (selectedDate ? " selected-width" : "")}
+      className={"date" + (isSelectedDay ? " selected-width" : "")}
       onClick={handleClick}
     >
       <div className={className.join(' ')}>{date.date}</div>
