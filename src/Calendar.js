@@ -1,5 +1,13 @@
 let cal = [];
 let tmp = [];
+
+class dateObj {
+  constructor (year, month, date){
+    this.year = year;
+    this.month = month;
+    this.date = date;
+  }
+}
 const addDate = (dateObj) => {
   tmp.push(dateObj);
   
@@ -22,19 +30,18 @@ const getCalendar = (year, month) => {
 
   //저번 달 날짜 출력 개수 = (prevDay + 1) % 7;
   for(let i = (prevDay + 1) % 7; i > 0; i--){
-    addDate({date: prevDate - i + 1, month: 'prev'});
+    addDate(new dateObj(year, (month+11)%12+1, prevDate - i + 1));
   }
 
   for(let i = 1; i<=endDate; i++){
-    addDate({date: i, month: 'curr'});
+    addDate(new dateObj(year, (month+1), i));
   }
 
   //다음 달 날짜 출력 개수 = 6 - endDay
   for(let i = 1; i <= 6-endDay; i++){
-    addDate({date: i, month: 'next'});
+    addDate(new dateObj(year, (month+1)%12+1, i));
   }
 
-  //console.log(cal);
   return cal;
 }
 
