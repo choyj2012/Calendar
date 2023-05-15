@@ -73,6 +73,7 @@
 
 .date-num {
   width: 30%;
+  min-width: fit-content;
   max-width: 40px;
   text-align: center;
 }
@@ -87,9 +88,6 @@
   background-color: rgba(25,115,232,1);
   color: white;
 }
-.container-right {
-  width: 56px;
-}
 
 .selected-width{
   flex-basis: 15%;
@@ -97,4 +95,8 @@
 
 .selected-height{
   flex-basis: 70%;
+}
+
+.container-right {
+  width: 56px;
 }
