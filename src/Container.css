@@ -72,8 +72,9 @@
 }
 
 .date-num {
-  border-radius: 100%;
-  padding: 7px;
+  width: 30%;
+  max-width: 40px;
+  text-align: center;
 }
 
 .basic {opacity: 1;}
@@ -81,6 +82,7 @@
 .weekday {color: black;}
 .sun {color: red;}
 .sat {color: blue;}
+
 .today {
   background-color: rgba(25,115,232,1);
   color: white;
@@ -90,9 +92,9 @@
 }
 
 .selected-width{
-  flex-basis: 40%;
+  flex-basis: 15%;
 }
 
 .selected-height{
-  flex-basis: 50%;
+  flex-basis: 70%;
 }

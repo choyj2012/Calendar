@@ -1,12 +1,13 @@
 import "./Container.css";
 import { getCalendar } from "./Calendar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CurrYmContext } from "./App";
 
-export default function Container({ ym, isLeftOpen }) {
+export default function Container({ isLeftOpen }) {
   return (
     <div className="container-box">
       <LeftContainer isLeftOpen={isLeftOpen} />
-      <CenterContainer ym={ym} />
+      <CenterContainer />
       <RightContainer />
     </div>
   );
@@ -18,8 +19,10 @@ const LeftContainer = ({ isLeftOpen }) => {
   return <div className={className}>Left</div>;
 };
 
-const CenterContainer = ({ ym: { year, month } }) => {
-  const cal = getCalendar(year, month);
+const CenterContainer = () => {
+  const {year, month} = useContext(CurrYmContext);
+  const cal = getCalendar(year, month-1);
+  
   const [selectedCord, setSelectedCord] = useState({
     isSelected: false,
     x: 0,
@@ -119,13 +122,18 @@ const Week = ({
 };
 
 const DateComp = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
-  let className = ['weekday', 'basic', 'date-num'];
+  const {year, month} = useContext(CurrYmContext);
+
+  let className = ['weekday', 'light', 'date-num'];
  
   if (day === 0) className[0] = 'sun';
   if (day === 6) className[0] = 'sat';
-  if (date.month !== "curr") className[1] = "light";
-  if (new Date().getDate() == date.date) className.push('today');
 
+  if (date.month === month) className[1] = "basic";
+  
+  let tmp = new Date(date.year, date.month-1, date.date);
+  if(tmp.toDateString() == new Date().toDateString()) className.push("today");
+  
   const handleClick = () => {
     setSelectedCord((cord) => {
       let newCord = { ...cord };
@@ -148,6 +156,7 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, selectedDate }) => {
     </div>
   );
 };
+
 const RightContainer = () => {
   return <div className="container-right">Right</div>;
 };

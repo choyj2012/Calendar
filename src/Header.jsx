@@ -1,20 +1,21 @@
 import "./Header.css";
-
-export default function Header({ym, setYM, setIsLeftOpen}) {
+import { CurrYmContext } from "./App";
+import { useContext } from "react";
+export default function Header({setYM, setIsLeftOpen}) {
   return (
     <header className="header-box">
-      <HeaderContents ym={ym} setYM={setYM}
+      <HeaderContents setYM={setYM}
         setIsLeftOpen={setIsLeftOpen}
         />
     </header>
   )
 }
 
-const HeaderContents = ({ym, setYM, setIsLeftOpen}) => {
+const HeaderContents = ({setYM, setIsLeftOpen}) => {
   return (
     <div className="header-contents">
       <Logo setIsLeftOpen={setIsLeftOpen}/>
-      <Search ym={ym} setYM={setYM}/>
+      <Search setYM={setYM}/>
       <UserMenu />
     </div>
   )
@@ -33,23 +34,23 @@ const Logo = ({setIsLeftOpen}) => {
   )
 }
 
-const Search = ({ym : {year, month}, setYM}) => {
-  let today = `${year}년 ${month+1}월`;
+const Search = ({setYM}) => {
+  const {year, month} = useContext(CurrYmContext);
+  let today = `${year}년 ${month}월`;
 
   const onChangeMonth = (n) => {
-    console.log("click");
     let newYM = {year, month};
     newYM.month += n;
-    if(newYM.month > 11) newYM.year += 1;
-    if(newYM.month < 0) newYM.year -= 1;
-    newYM.month = (newYM.month + 12) % 12;
+    if(newYM.month > 12) newYM.year += 1;
+    if(newYM.month < 1) newYM.year -= 1;
+    newYM.month = (newYM.month + 11) % 12 + 1;
     setYM(newYM);
   }
 
   const goToday = () => {
     setYM({
       year: new Date().getFullYear(),
-      month: new Date().getMonth()
+      month: new Date().getMonth()+1
     });
   }
 
