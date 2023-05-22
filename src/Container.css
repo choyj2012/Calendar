@@ -87,6 +87,7 @@
 .today {
   background-color: rgba(25,115,232,1);
   color: white;
+  border-radius: 50%;
 }
 
 .selected-width{
