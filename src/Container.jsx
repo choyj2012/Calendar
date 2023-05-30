@@ -2,7 +2,9 @@ import "./Container.css";
 import { getCalendar } from "./Calendar";
 import { useContext, useEffect, useState } from "react";
 import { CurrYmContext } from "./App";
+//import { getData } from "./Data/Data";
 
+const HOLIDAY = new Map();
 export default function Container({ isLeftOpen }) {
   return (
     <div className="container-box">
@@ -22,6 +24,7 @@ const LeftContainer = ({ isLeftOpen }) => {
 const CenterContainer = () => {
   const {year, month} = useContext(CurrYmContext);
   const cal = getCalendar(year, month-1);
+  //getData(year, month, HOLIDAY);
 
   const [selectedCord, setSelectedCord] = useState({
     isSelected: false,
@@ -129,7 +132,10 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelect
   const {year, month} = useContext(CurrYmContext);
 
   let className = ['weekday', 'light', 'date-num'];
- 
+
+  // if (HOLIDAY.get(date.year).get(date.month).has(date.date)){
+  //   className[0] = 'sun';
+  // }
   if (day === 0) className[0] = 'sun';
   if (day === 6) className[0] = 'sat';
 
