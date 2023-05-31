@@ -1,6 +1,7 @@
 import "./Container.css";
 import { getCalendar } from "./Calendar";
 import { useContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import { CurrYmContext } from "./App";
 import { getData } from "./Data/Data";
 
@@ -20,6 +21,8 @@ const LeftContainer = ({ isLeftOpen }) => {
   return <div className={className}>Left</div>;
 };
 
+const holidayContext = createContext(null);
+
 const CenterContainer = () => {
   const {year, month} = useContext(CurrYmContext);
   const cal = getCalendar(year, month-1);
@@ -33,7 +36,7 @@ const CenterContainer = () => {
       }
     }
     fetchHoliday();
-    
+
     return () => {
       ignore = true;
     }
@@ -56,12 +59,14 @@ const CenterContainer = () => {
   return (
     <div className="container-center">
       <Days selectedCord={selectedCord} />
-      <Month
-        cal={cal}
-        key={year + "" + month}
-        selectedCord={selectedCord}
-        setSelectedCord={setSelectedCord}
-      />
+      <holidayContext.Provider value={holiday}>
+        <Month
+          cal={cal}
+          key={year + "" + month}
+          selectedCord={selectedCord}
+          setSelectedCord={setSelectedCord}
+          />
+      </holidayContext.Provider>
     </div>
   );
 };
@@ -146,12 +151,16 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelect
 
   let className = ['weekday', 'light', 'date-num'];
 
-  // if (HOLIDAY.get(date.year).get(date.month).has(date.date)){
-  //   className[0] = 'sun';
-  // }
   if (day === 0) className[0] = 'sun';
   if (day === 6) className[0] = 'sat';
 
+  const hol = useContext(holidayContext);
+  let holName = null;
+  if(date.month == month && hol.has(date.date)){
+    className[0] = 'sun';
+    holName = hol.get(date.date);
+  }
+  
   if (date.month === month) className[1] = "basic";
   
   let tmp = new Date(date.year, date.month-1, date.date);
@@ -176,6 +185,7 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelect
       onClick={handleClick}
     >
       <div className={className.join(' ')}>{date.date}</div>
+      <div className={className.join(' ')}>{holName}</div>
     </div>
   );
 };
