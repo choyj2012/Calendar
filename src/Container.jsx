@@ -29,11 +29,11 @@ const CenterContainer = () => {
     let ignore = false;
     async function fetchHoliday() {
       if(!ignore){
-        return await getData(year, month, holiday);
+        setHoliday(await getData(year, month, holiday));
       }
     }
-    setHoliday(fetchHoliday());
-
+    fetchHoliday();
+    
     return () => {
       ignore = true;
     }
