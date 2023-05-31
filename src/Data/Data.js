@@ -1,7 +1,7 @@
 import convert from 'xml-js';
 
 const API_KEY = "In89aIkmZCdGv3RzrxGCf8mTRmd6Vb2HziAN%2F54W8cPxBnwsNEKlziWSkpO0aWmoENdpESAYfFF3v2%2Bhx5bVkg%3D%3D"
-const url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+const url = "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
 
 const HOLIDAY = new Map();
 const getData = async (year, month) => {
