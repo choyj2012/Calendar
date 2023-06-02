@@ -4,8 +4,8 @@
 }
 
 .container-left {
-  margin-left: -256px;
-  width: 256px;
+  margin-left: -30%;
+  width: 30%;
   transition: all 1000ms 
   cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
@@ -20,16 +20,12 @@
   flex-direction: column;
   border: 1px solid lightgray;
   margin-left: 8px;
-
-  transition: flex-basis 1s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 
 .days {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
-
-  transition: inherit;
 }
 
 .day {
@@ -38,21 +34,17 @@
   border-right: 0.5px solid lightgray;
   border-left: 0.5px solid lightgray;
   padding: 4px 0 4px 0;
-
-  transition: inherit;
 }
 
 .month {
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
-  transition: inherit;
 }
 
 .week {
   display: flex;
   flex: 1 1 0;
-  transition: inherit;
 }
 
 .date {
@@ -63,8 +55,6 @@
   align-items: center;
   border: 0.5px solid lightgray;
   padding-top: 8px;
-
-  transition: inherit;
 }
 
 .date:hover { 
@@ -88,14 +78,6 @@
   background-color: rgba(25,115,232,1);
   color: white;
   border-radius: 50%;
-}
-
-.selected-width{
-  flex-basis: 15%;
-}
-
-.selected-height{
-  flex-basis: 70%;
 }
 
 .container-right {
