@@ -5,20 +5,74 @@ import { createContext } from "react";
 import { CurrYmContext } from "./App";
 import { getData } from "./Data/Data";
 
-export default function Container({ isLeftOpen }) {
+const selectedDateContext = createContext(null);
+
+export default function Container({ isLeftOpen, setIsLeftOpen }) {
   return (
     <div className="container-box">
-      <LeftContainer isLeftOpen={isLeftOpen} />
-      <CenterContainer />
+      <SelectedDateProvider>
+        <LeftContainer 
+          isLeftOpen={isLeftOpen}
+          setIsLeftOpen={setIsLeftOpen}
+          />
+        <CenterContainer />
+      </SelectedDateProvider>
       <RightContainer />
     </div>
   );
 }
 
-const LeftContainer = ({ isLeftOpen }) => {
-  let className = "container-left";
-  className += isLeftOpen ? " left-open" : "";
-  return <div className={className}>Left</div>;
+const SelectedDateProvider = ({children}) => {
+  const [selectedDate, setSelectedDate] = useState({
+    year: 0,
+    month: 0,
+    date: 0,
+  });
+  const [isSelected, setIsSelected] = useState(false);
+
+  const onSelect = (date) => {
+    if(!isSelected) {
+      setSelectedDate({...date});
+      setIsSelected(true);
+    }
+    else {
+      if(JSON.stringify(selectedDate) === JSON.stringify(date))
+        setIsSelected(false);
+      else
+        setSelectedDate({...date});
+    }
+  }
+  const value = [isSelected, selectedDate, onSelect];
+
+  return (
+    <selectedDateContext.Provider value={value}>
+      {children}
+    </selectedDateContext.Provider>
+  )
+}
+
+const LeftContainer = ({ isLeftOpen, setIsLeftOpen }) => {
+  const [isSelected, selectedDate] = useContext(selectedDateContext);
+
+  useEffect(() => {
+    if(isSelected)
+      setIsLeftOpen(true);
+    else {
+      setIsLeftOpen(false);
+    }
+  }, [isSelected]);
+
+  let className = ["container-left"];
+  isLeftOpen && className.push("left-open");
+    return (
+      <div className={className.join(" ")}>
+        {isSelected &&
+          <div>
+            {`${selectedDate.month}월 ${selectedDate.date}일`}
+          </div>
+        }
+      </div>
+    )
 };
 
 const holidayContext = createContext(null);
@@ -82,7 +136,6 @@ const Month = ({ cal }) => {
           <Week
             key={i}
             week={week}
-            weekNum={i}
           />
         );
       })}
@@ -90,14 +143,13 @@ const Month = ({ cal }) => {
   );
 };
 
-const Week = ({ week, weekNum }) => {
+const Week = ({ week }) => {
   return (
     <div className="week">
       {week.map((date, i) => {
         return (
           <DateComp
             key={i}
-            weekNum={weekNum}
             date={date}
             day={i}
           />
@@ -107,9 +159,9 @@ const Week = ({ week, weekNum }) => {
   );
 };
 
-const DateComp = ({ weekNum, date, day }) => {
+const DateComp = ({ date, day }) => {
   const {year, month} = useContext(CurrYmContext);
-
+  const [, , onSelect] = useContext(selectedDateContext);
   let className = ['weekday', 'light', 'date-num'];
 
   if (day === 0) className[0] = 'sun';
@@ -128,7 +180,7 @@ const DateComp = ({ weekNum, date, day }) => {
   if(tmp.toDateString() == new Date().toDateString()) className.push("today");
   
   const handleClick = () => {
-    
+    onSelect(date);
   };
 
   return (

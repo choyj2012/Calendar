@@ -12,13 +12,13 @@ function App() {
     month: new Date().getMonth()+1
   })
 
-  const [isLeftOpen, setIsLeftOpen] = useState(true);
-  //const value = useMemo(() => ({ym, setYM}), [ym]);
+  const [isLeftOpen, setIsLeftOpen] = useState(false);
+  const value = useMemo(() => ym, [ym]);
   return (
     <div className="wrap">
-      <CurrYmContext.Provider value={ym}>
+      <CurrYmContext.Provider value={value}>
         <Header setYM={setYM} setIsLeftOpen={setIsLeftOpen} />
-        <Container isLeftOpen={isLeftOpen} />
+        <Container isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen} />
       </CurrYmContext.Provider>
       <Footer />
     </div>
