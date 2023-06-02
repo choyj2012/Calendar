@@ -42,36 +42,20 @@ const CenterContainer = () => {
     }
   }, [year, month]);
 
-  const [selectedCord, setSelectedCord] = useState({
-    isSelected: false,
-    x: 0,
-    y: 0,
-  });
-
-  useEffect(() => {
-    setSelectedCord(cord => {
-      let newCord = {...cord};
-      newCord.isSelected = false;
-      return newCord;
-    })
-  }, [year, month]);
-  
   return (
     <div className="container-center">
-      <Days selectedCord={selectedCord} />
+      <Days/>
       <holidayContext.Provider value={holiday}>
         <Month
           cal={cal}
           key={year + "" + month}
-          selectedCord={selectedCord}
-          setSelectedCord={setSelectedCord}
           />
       </holidayContext.Provider>
     </div>
   );
 };
 
-const Days = ({ selectedCord }) => {
+const Days = () => {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return (
     <div className="days">
@@ -79,8 +63,7 @@ const Days = ({ selectedCord }) => {
         let dayColor = "weekday";
         if (i === 0) dayColor = "sun";
         if (i === 6) dayColor = "sat";
-        if (selectedCord.isSelected && selectedCord.x === i)
-          dayColor += " selected-width";
+
         return (
           <div key={day} className={"day " + dayColor}>
             {day}
@@ -91,21 +74,15 @@ const Days = ({ selectedCord }) => {
   );
 };
 
-const Month = ({ cal, selectedCord, setSelectedCord }) => {
+const Month = ({ cal }) => {
   return (
     <div className="month">
       {cal.map((week, i) => {
-        let selectedWeek = false;
-        if (selectedCord.isSelected && selectedCord.y === i)
-          selectedWeek = true;
         return (
           <Week
             key={i}
             week={week}
             weekNum={i}
-            selectedCord={selectedCord}
-            setSelectedCord={setSelectedCord}
-            selectedWeek={selectedWeek}
           />
         );
       })}
@@ -113,32 +90,16 @@ const Month = ({ cal, selectedCord, setSelectedCord }) => {
   );
 };
 
-const Week = ({
-  week,
-  weekNum,
-  selectedCord,
-  setSelectedCord,
-  selectedWeek,
-}) => {
+const Week = ({ week, weekNum }) => {
   return (
-    <div className={"week" + (selectedWeek ? " selected-height" : "")}>
+    <div className="week">
       {week.map((date, i) => {
-        let isSelectedDay = false;
-        let isSelectedDate = false;
-        if (selectedCord.isSelected && selectedCord.x === i){
-          isSelectedDay = true;
-          if(selectedWeek) isSelectedDate = true;
-        }
-
         return (
           <DateComp
             key={i}
             weekNum={weekNum}
             date={date}
             day={i}
-            setSelectedCord={setSelectedCord}
-            isSelectedDay={isSelectedDay}
-            isSelectedDate={isSelectedDate}
           />
         );
       })}
@@ -146,7 +107,7 @@ const Week = ({
   );
 };
 
-const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelectedDate }) => {
+const DateComp = ({ weekNum, date, day }) => {
   const {year, month} = useContext(CurrYmContext);
 
   let className = ['weekday', 'light', 'date-num'];
@@ -167,21 +128,12 @@ const DateComp = ({ weekNum, date, day, setSelectedCord, isSelectedDay, isSelect
   if(tmp.toDateString() == new Date().toDateString()) className.push("today");
   
   const handleClick = () => {
-    setSelectedCord((cord) => {
-      let newCord = { ...cord };
-      newCord.x = day;
-      newCord.y = weekNum;
-      newCord.isSelected =
-        newCord.x === cord.x && newCord.y === cord.y
-          ? !newCord.isSelected
-          : true;
-      return newCord;
-    });
+    
   };
 
   return (
     <div
-      className={"date" + (isSelectedDay ? " selected-width" : "")}
+      className={"date"}
       onClick={handleClick}
     >
       <div className={className.join(' ')}>{date.date}</div>
