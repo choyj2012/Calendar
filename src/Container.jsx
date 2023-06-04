@@ -4,8 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { CurrYmContext } from "./App";
 import { getData } from "./Data/Data";
+import LeftContainer from "./LeftContainer";
 
-const selectedDateContext = createContext(null);
+export const selectedDateContext = createContext(null);
 
 export default function Container({ isLeftOpen, setIsLeftOpen }) {
   return (
@@ -48,22 +49,6 @@ const SelectedDateProvider = ({children, isLeftOpen, setIsLeftOpen}) => {
     </selectedDateContext.Provider>
   )
 }
-
-const LeftContainer = () => {
-  const [isLeftOpen, selectedDate] = useContext(selectedDateContext);
-
-  let className = ["container-left"];
-  isLeftOpen && className.push("left-open");
-    return (
-      <div className={className.join(" ")}>
-        {isLeftOpen &&
-          <div>
-            {`${selectedDate.month}월 ${selectedDate.date}일`}
-          </div>
-        }
-      </div>
-    )
-};
 
 const holidayContext = createContext(null);
 
@@ -176,7 +161,7 @@ const DateComp = ({ date, day }) => {
   };
 
   const isSelectedDate = (JSON.stringify(selectedDate) === JSON.stringify(date));
-  if(isSelectedDate) console.log(JSON.stringify(date));
+
   return (
     <div
       className={"date " + (isSelected && isSelectedDate ? "selected-date" : "")}
