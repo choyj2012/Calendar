@@ -9,14 +9,24 @@ const LeftContainer = () => {
   let className = ["container-left"];
   isLeftOpen && className.push("left-open");
 
+  return (
+    <div className={className.join(" ")}>
+      <LeftContents key={JSON.stringify(selectedDate)} 
+        selectedDate={selectedDate}/>
+    </div>
+  );
+};
+
+const LeftContents = ({selectedDate}) => {
   const schedules = [
     { id: "jdsjj1", title: "test1", detail: "this is test1 schedule" },
     { id: "asdkjk3", title: "test2", detail: "this is test2 schedule" },
+    { id: "jdssjj1", title: "test3", detail: "this is test3 schedule" },
   ];
 
   const [isOpenAll, setIsOpenAll] = useState(false);
   return (
-    <div className={className.join(" ")}>
+    <div className="left-contents-wrapper">
       <DateText>{`${selectedDate.month}월 ${selectedDate.date}일`}</DateText>
       <ScheduleList>
         <div
@@ -48,8 +58,7 @@ const LeftContainer = () => {
       <AddScheduleBtn>Add Schedule</AddScheduleBtn>
     </div>
   );
-};
-
+}
 const Schedule = ({ schedule, isOpenAll }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -59,6 +68,11 @@ const Schedule = ({ schedule, isOpenAll }) => {
 
   return (
     <ScheduleBox onClick={() => setIsOpen((p) => !p)}>
+      <p style={{
+        position: "absolute",
+        top: "5px",
+        right: "10px"
+      }}>{isOpen ? "-" : "+"}</p>
       <p>{schedule.title}</p>
       <p
         style={{
@@ -89,6 +103,11 @@ const ScheduleBox = styled.div`
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid red;
+  position: relative;
+  
+  &:hover{
+    background-color: lightblue;
+  }
 `;
 const AddScheduleBtn = styled.button`
   font-size: 1rem;
