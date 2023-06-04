@@ -57,6 +57,10 @@
   padding-top: 8px;
 }
 
+.selected-date {
+  background-color: lightblue; 
+}
+
 .date:hover { 
   background-color: lightblue;
 }

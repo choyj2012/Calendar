@@ -10,11 +10,10 @@ const selectedDateContext = createContext(null);
 export default function Container({ isLeftOpen, setIsLeftOpen }) {
   return (
     <div className="container-box">
-      <SelectedDateProvider>
-        <LeftContainer 
+      <SelectedDateProvider
           isLeftOpen={isLeftOpen}
-          setIsLeftOpen={setIsLeftOpen}
-          />
+          setIsLeftOpen={setIsLeftOpen}>
+        <LeftContainer />
         <CenterContainer />
       </SelectedDateProvider>
       <RightContainer />
@@ -22,27 +21,26 @@ export default function Container({ isLeftOpen, setIsLeftOpen }) {
   );
 }
 
-const SelectedDateProvider = ({children}) => {
+const SelectedDateProvider = ({children, isLeftOpen, setIsLeftOpen}) => {
   const [selectedDate, setSelectedDate] = useState({
-    year: 0,
-    month: 0,
-    date: 0,
+    year: new Date().getFullYear(),
+    month: new Date().getMonth()+1,
+    date: new Date().getDate(),
   });
-  const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = (date) => {
-    if(!isSelected) {
+    if(!isLeftOpen) {
       setSelectedDate({...date});
-      setIsSelected(true);
+      setIsLeftOpen(true);
     }
     else {
       if(JSON.stringify(selectedDate) === JSON.stringify(date))
-        setIsSelected(false);
+        setIsLeftOpen(false);
       else
         setSelectedDate({...date});
     }
   }
-  const value = [isSelected, selectedDate, onSelect];
+  const value = [isLeftOpen, selectedDate, onSelect];
 
   return (
     <selectedDateContext.Provider value={value}>
@@ -51,22 +49,14 @@ const SelectedDateProvider = ({children}) => {
   )
 }
 
-const LeftContainer = ({ isLeftOpen, setIsLeftOpen }) => {
-  const [isSelected, selectedDate] = useContext(selectedDateContext);
-
-  useEffect(() => {
-    if(isSelected)
-      setIsLeftOpen(true);
-    else {
-      setIsLeftOpen(false);
-    }
-  }, [isSelected]);
+const LeftContainer = () => {
+  const [isLeftOpen, selectedDate] = useContext(selectedDateContext);
 
   let className = ["container-left"];
   isLeftOpen && className.push("left-open");
     return (
       <div className={className.join(" ")}>
-        {isSelected &&
+        {isLeftOpen &&
           <div>
             {`${selectedDate.month}월 ${selectedDate.date}일`}
           </div>
@@ -161,15 +151,17 @@ const Week = ({ week }) => {
 
 const DateComp = ({ date, day }) => {
   const {year, month} = useContext(CurrYmContext);
-  const [, , onSelect] = useContext(selectedDateContext);
+  const [isSelected, selectedDate, onSelect] = useContext(selectedDateContext);
+  
   let className = ['weekday', 'light', 'date-num'];
 
   if (day === 0) className[0] = 'sun';
-  if (day === 6) className[0] = 'sat';
+  else if (day === 6) className[0] = 'sat';
+  else className[0] = 'weekday';
 
   const hol = useContext(holidayContext);
   let holName = null;
-  if(date.month == month && hol.has(date.date)){
+  if(date.year == year && date.month == month && hol.has(date.date)){
     className[0] = 'sun';
     holName = hol.get(date.date);
   }
@@ -183,9 +175,11 @@ const DateComp = ({ date, day }) => {
     onSelect(date);
   };
 
+  const isSelectedDate = (JSON.stringify(selectedDate) === JSON.stringify(date));
+  if(isSelectedDate) console.log(JSON.stringify(date));
   return (
     <div
-      className={"date"}
+      className={"date " + (isSelected && isSelectedDate ? "selected-date" : "")}
       onClick={handleClick}
     >
       <div className={className.join(' ')}>{date.date}</div>
