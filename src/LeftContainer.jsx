@@ -18,21 +18,25 @@ const LeftContainer = () => {
 };
 
 const LeftContents = ({selectedDate}) => {
-  const schedules = [
+  const [schedules, setSchedules] = useState([
     { id: "jdsjj1", title: "test1", detail: "this is test1 schedule" },
     { id: "asdkjk3", title: "test2", detail: "this is test2 schedule" },
     { id: "jdssjj1", title: "test3", detail: "this is test3 schedule" },
-  ];
+  ]);
 
   const [isOpenAll, setIsOpenAll] = useState(false);
   return (
     <div className="left-contents-wrapper">
       <DateText>{`${selectedDate.month}월 ${selectedDate.date}일`}</DateText>
-      <ScheduleList>
+      
         <div
           style={{
+            width: "90%",
+            marginTop: '30px',
+            fontSize: '1.5rem',
             display: "flex",
             alignItems: "center",
+            flexFlow: "row wrap",
             justifyContent: "space-between",
           }}
         >
@@ -44,7 +48,7 @@ const LeftContents = ({selectedDate}) => {
             {!isOpenAll ? "Open All" : "Close All"}
           </button>
         </div>
-
+        <ScheduleList>
         {schedules.map((schedule) => {
           return (
             <Schedule
@@ -55,7 +59,13 @@ const LeftContents = ({selectedDate}) => {
           );
         })}
       </ScheduleList>
-      <AddScheduleBtn>Add Schedule</AddScheduleBtn>
+      <AddScheduleBtn onClick={() => {
+        setSchedules([...schedules, {
+          id: new Date().getTime(),
+          title: 'new Schedule',
+          detail: 'this is new Schedule'
+        }])
+      }}>Add Schedule</AddScheduleBtn>
     </div>
   );
 }
@@ -92,19 +102,26 @@ const DateText = styled.div`
 const ScheduleList = styled.div`
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   width: 90%;
-  margin-top: 30px;
+  height: 90%;
+  margin-top: 10px;
   font-size: 1.5rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ScheduleBox = styled.div`
-  min-height: 30px;
+  min-height: fit-content;
   margin-top: 15px;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid red;
   position: relative;
-  
+  flex: 0 0 1;
   &:hover{
     background-color: lightblue;
   }
@@ -112,5 +129,6 @@ const ScheduleBox = styled.div`
 const AddScheduleBtn = styled.button`
   font-size: 1rem;
   margin-top: 30px;
+  width: 80%;
 `;
 export default LeftContainer;
