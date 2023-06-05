@@ -6,7 +6,7 @@ const Login = () => {
     <Wrapper>
       <LoginBg>
         <LoginBox>
-          <LoginForm action="" method="post" onSubmit={() => alert('login')}>
+          <LoginForm action="/" onSubmit={() => alert('login')}>
             <p>Login</p>
             <input type="text" name="userid" placeholder="ID"></input>
             <input type="password" name="password" placeholder="PW"></input>

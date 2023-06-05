@@ -69,10 +69,13 @@
   display: flex;
   padding-left: 40px;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .menu-icon {
-  padding: 8px;
+  padding: 11px;
+  border: solid 0.5px lightgray;
+  border-radius: 10%;
 }
 
 .user-icon {
