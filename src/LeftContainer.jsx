@@ -108,9 +108,17 @@ const ScheduleList = styled.div`
   margin-top: 10px;
   font-size: 1.5rem;
   overflow-y: scroll;
-
+  padding-right: 5px;
   &::-webkit-scrollbar {
-    display: none;
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: black;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: lightgray;
   }
 `;
 
