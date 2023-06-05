@@ -77,7 +77,9 @@ const UserMenu = () => {
   return (
     <div className="user-menu">
       <div className="menu-icon">
-        <img src="https://placehold.co/40x40"/>
+        <a href="/login">
+          <img src="https://placehold.co/40x40"/>
+        </a>
       </div>
       <div className="user-icon">
         <img src="https://placehold.co/40x40"/>

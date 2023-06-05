@@ -2,6 +2,8 @@ import Container from "./Container"
 import Footer from "./Footer"
 import Header from "./Header"
 import { createContext, useMemo, useState } from "react"
+import styled from "styled-components"
+import "./App.css"
 
 export const CurrYmContext = createContext(null);
 
@@ -14,14 +16,20 @@ const MainPage = () => {
   const [isLeftOpen, setIsLeftOpen] = useState(false);
   const value = useMemo(() => ym, [ym]);
   return (
-    <div className="wrap">
+    <Wrapper>
       <CurrYmContext.Provider value={value}>
         <Header setYM={setYM} setIsLeftOpen={setIsLeftOpen} />
         <Container isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen} />
       </CurrYmContext.Provider>
       <Footer />
-    </div>
+    </Wrapper>
   );
 }
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+`
 export default MainPage
