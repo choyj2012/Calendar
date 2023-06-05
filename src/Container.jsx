@@ -2,7 +2,7 @@ import "./Container.css";
 import { getCalendar } from "./Calendar";
 import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
-import { CurrYmContext } from "./App";
+import { CurrYmContext } from "./MainPage";
 import { getData } from "./Data/Data";
 import LeftContainer from "./LeftContainer";
 

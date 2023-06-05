@@ -1,5 +1,5 @@
 import "./Header.css";
-import { CurrYmContext } from "./App";
+import { CurrYmContext } from "./MainPage";
 import { useContext } from "react";
 export default function Header({setYM, setIsLeftOpen}) {
   return (
