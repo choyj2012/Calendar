@@ -1,28 +1,27 @@
-import Container from "./Container"
-import Footer from "./Footer"
-import Header from "./Header"
 import "./App.css"
-import { createContext, useMemo, useState } from "react"
-
-export const CurrYmContext = createContext(null);
+import MainPage from "./MainPage"
+import Login from "./Login"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 function App() {
-  const [ym, setYM] = useState({
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1
-  })
-
-  const [isLeftOpen, setIsLeftOpen] = useState(false);
-  const value = useMemo(() => ym, [ym]);
   return (
-    <div className="wrap">
-      <CurrYmContext.Provider value={value}>
-        <Header setYM={setYM} setIsLeftOpen={setIsLeftOpen} />
-        <Container isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen} />
-      </CurrYmContext.Provider>
-      <Footer />
-    </div>
-  );
+    <BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/" element={<MainPage/>}></Route>
+    </Routes>
+    </BrowserRouter>
+  )
+
+  // <BrowserRouter>
+	// 			<Header />
+	// 			<Routes>
+	// 				<Route path="/" element={<Main />}></Route>
+	// 				<Route path="/product/*" element={<Product />}></Route>
+	// 				{/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
+	// 				<Route path="*" element={<NotFound />}></Route>
+	// 			</Routes>
+	// 		</BrowserRouter>
 }
 
 export default App
