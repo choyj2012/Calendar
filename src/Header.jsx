@@ -1,6 +1,7 @@
 import "./Header.css";
 import { CurrYmContext } from "./MainPage";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 export default function Header({setYM, setIsLeftOpen}) {
   return (
     <header className="header-box">
@@ -77,10 +78,10 @@ const UserMenu = () => {
   return (
     <div className="user-menu">
       <div className="menu-icon">
-        <a href="/login">
-          <p style={{fontSize: "1rem"}}>login</p>
-          {/* <img src="https://placehold.co/40x40"/> */}
-        </a>
+        <Link to="/login">login</Link>
+        {/* <a href="/login">
+          <img src="https://placehold.co/40x40"/>
+        </a> */}
       </div>
       <div className="user-icon">
         <img src="https://placehold.co/40x40"/>
