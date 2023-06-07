@@ -8,5 +8,6 @@ export default defineConfig({
     alias: {
       'stream': 'stream-browserify'
     }
-  }
+  },
+  base: '/Calendar/'
 })
