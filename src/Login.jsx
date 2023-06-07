@@ -1,4 +1,5 @@
 import styled, {css} from "styled-components"
+import { Form } from "react-router-dom";
 import "./App.css"
 
 const Login = () => {
@@ -65,7 +66,7 @@ const LoginBox = styled.div`
   align-items: center;
 `
 
-const LoginForm = styled.form`
+const LoginForm = styled(Form)`
   width: 60%;
   display: flex;
   flex-direction: column;
