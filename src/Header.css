@@ -73,6 +73,7 @@
 }
 
 .menu-icon {
+  font-size: 1rem;
   padding: 11px;
   border: solid 0.5px lightgray;
   border-radius: 10%;
