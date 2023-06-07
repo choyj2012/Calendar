@@ -2,7 +2,7 @@ import MainPage from "./MainPage"
 import Login from "./Login"
 import { createBrowserRouter, RouterProvider} from "react-router-dom"
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: "/",
     element: <MainPage />,
@@ -11,9 +11,11 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-]);
+];
 
 function App() {
+
+  const router = createBrowserRouter(routes, { basename: import.meta.env.DEV ? '/' : '/Calendar/' })
   return (
     <RouterProvider router={router} />
   );
