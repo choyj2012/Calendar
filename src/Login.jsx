@@ -49,14 +49,13 @@ const LoginForm = () => {
   });
   const [isFail, setIsFail] = useState(false);
   const moveCalendar = useNavigate();
+  
   const handleSubmit = async (e) => {
     console.log('submit');
     e.preventDefault();
 
     let response = await tryLogin(form);
-    console.log(response);
     if(response.result === 'success'){
-      console.log("A");
       sessionStorage.setItem('user', response.username);
       moveCalendar('/')
     }
