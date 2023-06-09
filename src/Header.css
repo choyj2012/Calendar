@@ -67,9 +67,9 @@
 
 .user-menu {
   display: flex;
-  padding-left: 40px;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   align-items: center;
+  min-width: 200px;
 }
 
 .menu-icon {
@@ -81,4 +81,5 @@
 
 .user-icon {
   padding: 8px;
+  font-size: 1rem;
 }

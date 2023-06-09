@@ -1,7 +1,7 @@
 import "./Header.css";
 import { CurrYmContext } from "./MainPage";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 export default function Header({setYM, setIsLeftOpen}) {
   return (
     <header className="header-box">
@@ -75,16 +75,31 @@ const Search = ({setYM}) => {
 }
 
 const UserMenu = () => {
+  const [userName, setUserName] = useState(sessionStorage.getItem('user'));
+  const moveLogin = useNavigate();
+  const handleClick = () => {
+    if(userName === null){
+      moveLogin('/login');
+    }
+    else {
+      sessionStorage.removeItem('user');
+      setUserName(null);
+    }
+  }
   return (
     <div className="user-menu">
-      <div className="menu-icon">
-        <Link to="/login">login</Link>
+      <div className="user-icon">
+        {userName !== null ? 'Hi, ' + userName : 'login please'}
+      </div>
+      <div className="menu-icon" onClick={handleClick}>
+        {
+          userName === null
+          ? 'login'//<Link to="/login">login</Link>
+          : 'logout'
+        }
         {/* <a href="/login">
           <img src="https://placehold.co/40x40"/>
         </a> */}
-      </div>
-      <div className="user-icon">
-        <img src="https://placehold.co/40x40"/>
       </div>
     </div>
   )
