@@ -1,47 +1,112 @@
 import styled, {css} from "styled-components"
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./App.css"
+
+const account = [
+  {
+    id: 'test',
+    pw: 'test',
+    username: 'choyj',
+  },
+  {
+    id: 'test2',
+    pw: 'test2',
+    username: 'Bob',
+  }
+]
+
+const tryLogin = async ({id, pw}) => {
+  const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay));
+  let response = { result: '', username: ''};
+  for(let user of account){
+    if(id == user.id && pw == user.pw){
+      response.result = 'success';
+      response.username = user.username;
+      break;
+    }
+  }
+  await wait(1000); //서버로 요청한다고 가정
+  return response;
+}
 
 const Login = () => {
   return (
     <Wrapper>
       <LoginBg>
         <LoginBox>
-          <LoginForm action="/" onSubmit={() => alert('login')}>
-            <p>Login</p>
-            <input type="text" name="userid" placeholder="ID"></input>
-            <input type="password" name="password" placeholder="PW"></input>
-            <button type="submit">login</button>
-
-            <ul>
-              <li><a href="#">ID찾기</a></li><li>|</li>
-              <li><a href="#">PW찾기</a></li><li>|</li>
-              <li><a href="#">회원가입</a></li>
-            </ul>
-          </LoginForm>
+          <LoginForm/>
         </LoginBox>
       </LoginBg>
     </Wrapper>
   );
 }
 
-// const rainbow = css`
-//   background: linear-gradient(
-//     90deg,
-//     rgba(255, 0, 0, 1) 0%,
-//     rgba(255, 154, 0, 1) 10%,
-//     rgba(208, 222, 33, 1) 20%,
-//     rgba(79, 220, 74, 1) 30%,
-//     rgba(63, 218, 216, 1) 40%,
-//     rgba(47, 201, 226, 1) 50%,
-//     rgba(28, 127, 238, 1) 60%,
-//     rgba(95, 21, 242, 1) 70%,
-//     rgba(186, 12, 248, 1) 80%,
-//     rgba(251, 7, 217, 1) 90%,
-//     rgba(255, 0, 0, 1) 100%
-//   );
-// `
+const LoginForm = () => {
+  const [form, setForm] = useState({
+    id: '',
+    pw: ''
+  });
+  const [isFail, setIsFail] = useState(false);
+  const moveCalendar = useNavigate();
+  const handleSubmit = async (e) => {
+    console.log('submit');
+    e.preventDefault();
 
+    let response = await tryLogin(form);
+    console.log(response);
+    if(response.result === 'success'){
+      console.log("A");
+      sessionStorage.setItem('user', response.username);
+      moveCalendar('/')
+    }
+    else {
+      setIsFail(true);
+    }
+  }
+
+  const checkLength = () => {
+    return !(form.id.length > 0 && form.pw.length > 0);
+  }
+
+  return (
+    <StyledForm onSubmit={handleSubmit}>
+      <div>
+        Login
+      </div>
+      <LoginFail isFail={isFail}>{'Check Id or Pw'}</LoginFail>
+      <input
+        type="text"
+        placeholder="ID"
+        value={form.id}
+        onChange={(e) => setForm({ ...form, id: e.target.value })}
+      />
+      <input
+        type="password"
+        placeholder="PW"
+        value={form.pw}
+        onChange={(e) => setForm({ ...form, pw: e.target.value })}
+      />
+      <button type="submit" disabled={checkLength()}>
+        login
+      </button>
+
+      <ul>
+        <li>
+          <a href="#">ID찾기</a>
+        </li>
+        <li>|</li>
+        <li>
+          <a href="#">PW찾기</a>
+        </li>
+        <li>|</li>
+        <li>
+          <a href="#">회원가입</a>
+        </li>
+      </ul>
+    </StyledForm>
+  );
+}
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -66,20 +131,19 @@ const LoginBox = styled.div`
   align-items: center;
 `
 
-const LoginForm = styled(Form)`
+const StyledForm = styled(Form)`
   width: 60%;
   display: flex;
   flex-direction: column;
   & > * {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 1rem;
   }
 
-  & > p {
+  & > div:nth-child(1) {
     font-size: 2.5rem;
-    margin-top: 0px;
-    margin-bottom: 45px;
+    margin-bottom: 20px;
   }
 
   & > input {
@@ -104,6 +168,11 @@ const LoginForm = styled(Form)`
     text-decoration: none;
   }
 `
-
+const LoginFail = styled.div`
+  visibility: ${props => props.isFail ? "visible" : "hidden"};
+  color: red;
+  font-size: 1rem;
+  margin: 0px;
+`
 
 export default Login
