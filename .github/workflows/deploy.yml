@@ -37,7 +37,7 @@ jobs:
           cache: 'npm'
       - name: Generate .env
         run: |
-          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }} >> .env
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
       - name: Install dependencies
         run: npm install
       - name: Build
