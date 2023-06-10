@@ -14,3 +14,10 @@ https://vitejs-kr.github.io/guide/static-deploy.html
 3. sessionStorage에 user 저장 후 사용
 4. 로그아웃시 sessionStorage에서 user 삭제
 - 화면 이동을 위해 react-router-dom의 useNavigate 사용
+
+
+## API KEY 숨기기
+1. repository setting - secrets에 환경변수 추가
+2. .yml 파일에서 .env generate step 추가
+[[Github Actions] React .env 생성](https://velog.io/@chaerin00/Github-Actions-React-.env-%EC%83%9D%EC%84%B1)
+- vite의 경우 VITE_로 시작해야함 / import.meta.env로 접근
