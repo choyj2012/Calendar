@@ -1,39 +1,51 @@
 import convert from 'xml-js';
-
-const API_KEY = "In89aIkmZCdGv3RzrxGCf8mTRmd6Vb2HziAN%2F54W8cPxBnwsNEKlziWSkpO0aWmoENdpESAYfFF3v2%2Bhx5bVkg%3D%3D"
-const url = "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+import { getHollyfromServer } from '../server';
 
 const HOLIDAY = new Map();
+
+const account = [
+  {
+    id: 'test',
+    pw: 'test',
+    username: 'choyj',
+  },
+  {
+    id: 'test2',
+    pw: 'test2',
+    username: 'Bob',
+  }
+]
+
+const getAccount = () => {
+  return account;
+}
+
 const getData = async (year, month) => {
   if(HOLIDAY.has(year) && HOLIDAY.get(year).has(month)) return HOLIDAY.get(year).get(month);
   
   let _month = month < 10 ? '0' + month : month;
-  const result = await getXMLfromAPI(year, _month);
+
+  const xmlString = await getHollyfromServer(year, _month);
+  const jsonResult = convertJSONfromXML(xmlString);
 
   if (HOLIDAY.has(year)){
-    HOLIDAY.get(year).set(month, result);
+    HOLIDAY.get(year).set(month, jsonResult);
   }
   else{
     HOLIDAY.set(year, new Map());
-    HOLIDAY.get(year).set(month, result);
+    HOLIDAY.get(year).set(month, jsonResult);
   }
   
   return HOLIDAY.get(year).get(month);
   //console.log(HOLIDAY);
 }
 
-const getXMLfromAPI = async (year, month) => {
-  console.log(`request ${year} ${month}`);
-  const reqURL = `${url}?solYear=${year}&solMonth=${month}&ServiceKey=${API_KEY}`;
-  const response = await fetch(reqURL);
-  const xmlString = await response.text();
-
+const convertJSONfromXML = (xmlString) => {
   const result = convert.xml2json(xmlString, {
     compact: 'true',
     spaces: 4,
   });
-
-
+  
   let obj = JSON.parse(result);
   let res = obj.elements[0];
   let body = res.elements[1];
@@ -51,4 +63,4 @@ const getXMLfromAPI = async (year, month) => {
   
   return arr;
 };
-export { getData };
+export { getData, getAccount };

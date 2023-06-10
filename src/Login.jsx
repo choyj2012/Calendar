@@ -1,34 +1,10 @@
 import styled, {css} from "styled-components"
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { tryLogin } from "./server";
 import "./App.css"
 
-const account = [
-  {
-    id: 'test',
-    pw: 'test',
-    username: 'choyj',
-  },
-  {
-    id: 'test2',
-    pw: 'test2',
-    username: 'Bob',
-  }
-]
 
-const tryLogin = async ({id, pw}) => {
-  const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay));
-  let response = { result: '', username: ''};
-  for(let user of account){
-    if(id == user.id && pw == user.pw){
-      response.result = 'success';
-      response.username = user.username;
-      break;
-    }
-  }
-  await wait(1000); //서버로 요청한다고 가정
-  return response;
-}
 
 const Login = () => {
   return (
