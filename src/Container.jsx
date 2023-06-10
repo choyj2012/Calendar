@@ -3,8 +3,8 @@ import { getCalendar } from "./Calendar";
 import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { CurrYmContext } from "./MainPage";
-import { getData } from "./Data/Data";
 import LeftContainer from "./LeftContainer";
+import { getHolidayfromServer } from "./server/server";
 
 export const selectedDateContext = createContext(null);
 
@@ -61,7 +61,7 @@ const CenterContainer = () => {
     let ignore = false;
     async function fetchHoliday() {
       if(!ignore){
-        setHoliday(await getData(year, month, holiday));
+        setHoliday(await getHolidayfromServer(year, month, holiday));
       }
     }
     fetchHoliday();

@@ -1,7 +1,7 @@
 import styled, {css} from "styled-components"
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { tryLogin } from "./server";
+import { tryLogintoServer } from "./server/server";
 import "./App.css"
 
 
@@ -30,7 +30,7 @@ const LoginForm = () => {
     console.log('submit');
     e.preventDefault();
 
-    let response = await tryLogin(form);
+    let response = await tryLogintoServer(form);
     if(response.result === 'success'){
       sessionStorage.setItem('user', response.username);
       moveCalendar('/')
