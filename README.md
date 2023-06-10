@@ -21,3 +21,7 @@ https://vitejs-kr.github.io/guide/static-deploy.html
 2. .yml 파일에서 .env generate step 추가
 [[Github Actions] React .env 생성](https://velog.io/@chaerin00/Github-Actions-React-.env-%EC%83%9D%EC%84%B1)
 - vite의 경우 VITE_로 시작해야함 / import.meta.env로 접근
+
+
+## 사용자 별로 각 날짜에 스케쥴 추가 구현(완료)
+- todo : 해당 날짜에 일정 있을 시 달력 칸에 표시하는 기능 구현
