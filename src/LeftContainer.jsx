@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { selectedDateContext } from "./Container";
 import "./LeftContainer.css";
 import styled from "styled-components";
+import { getSchedulefromServer, setSchedulefromServer } from "./server/server";
 
 const LeftContainer = () => {
   const [isLeftOpen, selectedDate] = useContext(selectedDateContext);
@@ -18,37 +19,44 @@ const LeftContainer = () => {
 };
 
 const LeftContents = ({selectedDate}) => {
-  const [schedules, setSchedules] = useState([
-    { id: "jdsjj1", title: "test1", detail: "this is test1 schedule" },
-    { id: "asdkjk3", title: "test2", detail: "this is test2 schedule" },
-    { id: "jdssjj1", title: "test3", detail: "this is test3 schedule" },
-  ]);
-
+  const [schedules, setSchedules] = useState([]);
   const [isOpenAll, setIsOpenAll] = useState(false);
+  const [trigger, setTrigger] = useState(false);
+  useEffect(() => {
+    let ignore = false;
+    async function request() {
+      const response = await getSchedulefromServer(sessionStorage.getItem('user'), selectedDate);
+      if(!ignore) {
+        console.log('request');
+        setSchedules([...response.result]);
+      }
+    }
+    request();
+
+    return () => {
+      ignore = true;
+    }
+  }, [trigger]);
+
+  const addSchedule = (newSchedule, selectedDate) => {
+    setSchedulefromServer(sessionStorage.getItem('user'), selectedDate, newSchedule);
+    setTrigger(p => !p);
+  }
+
   return (
     <div className="left-contents-wrapper">
-      <DateText>{`${selectedDate.month}월 ${selectedDate.date}일`}</DateText>
-      
-        <div
-          style={{
-            width: "90%",
-            marginTop: '30px',
-            fontSize: '1.5rem',
-            display: "flex",
-            alignItems: "center",
-            flexFlow: "row wrap",
-            justifyContent: "space-between",
-          }}
+      <DateText>{`${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.date}일`}</DateText>
+
+      <ScheduleDiv>
+        Schedule List
+        <button
+          style={{ display: "inline-block", alignSelf: "flex-end"}}
+          onClick={() => setIsOpenAll((p) => !p)}
         >
-          Schedule List
-          <button
-            style={{ display: "inline-block" }}
-            onClick={() => setIsOpenAll((p) => !p)}
-          >
-            {!isOpenAll ? "Open All" : "Close All"}
-          </button>
-        </div>
-        <ScheduleList>
+          {!isOpenAll ? "Open All" : "Close All"}
+        </button>
+      </ScheduleDiv>
+      <ScheduleList>
         {schedules.map((schedule) => {
           return (
             <Schedule
@@ -59,13 +67,8 @@ const LeftContents = ({selectedDate}) => {
           );
         })}
       </ScheduleList>
-      <AddScheduleBtn onClick={() => {
-        setSchedules([...schedules, {
-          id: new Date().getTime(),
-          title: 'new Schedule',
-          detail: 'this is new Schedule'
-        }])
-      }}>Add Schedule</AddScheduleBtn>
+      <AddScheduleForm addSchedule={addSchedule} selectedDate={selectedDate}/>
+      
     </div>
   );
 }
@@ -88,6 +91,7 @@ const Schedule = ({ schedule, isOpenAll }) => {
         style={{
           display: isOpen ? "block" : "none",
           marginTop: "20px",
+          fontSize: "1rem"
         }}
       >
         {schedule.detail}
@@ -95,16 +99,57 @@ const Schedule = ({ schedule, isOpenAll }) => {
     </ScheduleBox>
   );
 };
+
+const AddScheduleForm = ({addSchedule, selectedDate}) => {
+  const [inputData, setInputData] = useState({
+    title: '',
+    detail: '',
+  })
+  
+  return (
+    <AddScheduleDiv>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <label htmlFor="title-input">제목: </label>
+        <input type="text" id="title-input" style={{width: "80%"}}
+          value={inputData.title} onChange={(e) => setInputData({ ...inputData, title: e.target.value })}/>
+      </div>
+      <label htmlFor="detail-input">내용: </label>
+      <input type="text" id="detail-input" style={{display: "block",flex: "1 1 auto"}}
+        value={inputData.detail}  onChange={(e) => setInputData({ ...inputData, detail: e.target.value })}/>
+      <AddScheduleBtn
+        onClick={() => {
+          addSchedule({
+            id: new Date().getTime(),
+            title: inputData.title,
+            detail: inputData.detail,
+          }, selectedDate);
+          setInputData({title: '', detail: ''});
+        }}
+      >
+        Add Schedule
+      </AddScheduleBtn>
+    </AddScheduleDiv>
+  );
+}
 const DateText = styled.div`
   font-size: 2rem;
 `;
 
+const ScheduleDiv = styled.div`
+  width: 90%;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: space-between;
+`
 const ScheduleList = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   width: 90%;
-  height: 90%;
+  height: 50%;
   margin-top: 10px;
   font-size: 1.5rem;
   overflow-y: scroll;
@@ -134,9 +179,21 @@ const ScheduleBox = styled.div`
     background-color: lightblue;
   }
 `;
+
+const AddScheduleDiv = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  width: 90%;
+  padding: 10px;
+  flex: 1 1 auto;
+
+  & > * {
+    margin-bottom: 5px;
+  }
+`
 const AddScheduleBtn = styled.button`
   font-size: 1rem;
-  margin-top: 30px;
-  width: 80%;
+  width: 100%;
 `;
 export default LeftContainer;
