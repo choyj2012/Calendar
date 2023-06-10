@@ -84,6 +84,7 @@ const UserMenu = () => {
     else {
       sessionStorage.removeItem('user');
       setUserName(null);
+      window.location.reload();
     }
   }
   return (
