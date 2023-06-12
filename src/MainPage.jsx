@@ -4,24 +4,20 @@ import Header from "./Header"
 import { createContext, useMemo, useState } from "react"
 import styled from "styled-components"
 import "./App.css"
+import { CurrYmProvider } from "./Context"
 
 export const CurrYmContext = createContext(null);
 
 const MainPage = () => {
-  const [ym, setYM] = useState({
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1
-  })
-
   const [isLeftOpen, setIsLeftOpen] = useState(false);
-  const value = useMemo(() => ym, [ym]);
+  
   return (
     <Wrapper>
-      <CurrYmContext.Provider value={value}>
-        <Header setYM={setYM} setIsLeftOpen={setIsLeftOpen} />
+      <CurrYmProvider>
+        <Header setIsLeftOpen={setIsLeftOpen} />
         <Container isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen} />
-      </CurrYmContext.Provider>
-      <Footer />
+      </CurrYmProvider>
+       <Footer />
     </Wrapper>
   );
 }

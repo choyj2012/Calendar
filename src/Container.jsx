@@ -1,12 +1,11 @@
 import "./Container.css";
 import { getCalendar } from "./Calendar";
 import { useContext, useEffect, useState } from "react";
-import { createContext } from "react";
-import { CurrYmContext } from "./MainPage";
 import LeftContainer from "./LeftContainer";
-import { getHolidayfromServer } from "./server/server";
-
-export const selectedDateContext = createContext(null);
+import { 
+  HolidayContext, HolidayProvider, 
+  SelectedDateContext, SelectedDateProvider,
+  CurrYmContext } from "./Context";
 
 export default function Container({ isLeftOpen, setIsLeftOpen }) {
   return (
@@ -22,64 +21,16 @@ export default function Container({ isLeftOpen, setIsLeftOpen }) {
   );
 }
 
-const SelectedDateProvider = ({children, isLeftOpen, setIsLeftOpen}) => {
-  const [selectedDate, setSelectedDate] = useState({
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    date: new Date().getDate(),
-  });
-
-  const onSelect = (date) => {
-    if(!isLeftOpen) {
-      setSelectedDate({...date});
-      setIsLeftOpen(true);
-    }
-    else {
-      if(JSON.stringify(selectedDate) === JSON.stringify(date))
-        setIsLeftOpen(false);
-      else
-        setSelectedDate({...date});
-    }
-  }
-  const value = [isLeftOpen, selectedDate, onSelect];
-
-  return (
-    <selectedDateContext.Provider value={value}>
-      {children}
-    </selectedDateContext.Provider>
-  )
-}
-
-const holidayContext = createContext(null);
-
 const CenterContainer = () => {
-  const {year, month} = useContext(CurrYmContext);
+  const {ym: {year, month},} = useContext(CurrYmContext);
   const cal = getCalendar(year, month-1);
-  const [holiday, setHoliday] = useState(new Map());
-
-  useEffect(() => {
-    let ignore = false;
-    async function fetchHoliday() {
-      if(!ignore){
-        setHoliday(await getHolidayfromServer(year, month, holiday));
-      }
-    }
-    fetchHoliday();
-
-    return () => {
-      ignore = true;
-    }
-  }, [year, month]);
-
+  
   return (
     <div className="container-center">
-      <Days/>
-      <holidayContext.Provider value={holiday}>
-        <Month
-          cal={cal}
-          key={year + "" + month}
-          />
-      </holidayContext.Provider>
+      <Days />
+      <HolidayProvider>
+        <Month cal={cal} key={year + "" + month} />
+      </HolidayProvider>
     </div>
   );
 };
@@ -107,12 +58,7 @@ const Month = ({ cal }) => {
   return (
     <div className="month">
       {cal.map((week, i) => {
-        return (
-          <Week
-            key={i}
-            week={week}
-          />
-        );
+        return <Week key={i} week={week} />;
       })}
     </div>
   );
@@ -122,21 +68,15 @@ const Week = ({ week }) => {
   return (
     <div className="week">
       {week.map((date, i) => {
-        return (
-          <DateComp
-            key={i}
-            date={date}
-            day={i}
-          />
-        );
+        return <DateComp key={i} date={date} day={i} />;
       })}
     </div>
   );
 };
 
 const DateComp = ({ date, day }) => {
-  const {year, month} = useContext(CurrYmContext);
-  const [isSelected, selectedDate, onSelect] = useContext(selectedDateContext);
+  const {ym: {year, month}, } = useContext(CurrYmContext);
+  const [isSelected, selectedDate, onSelect] = useContext(SelectedDateContext);
   
   let className = ['weekday', 'light', 'date-num'];
 
@@ -144,7 +84,7 @@ const DateComp = ({ date, day }) => {
   else if (day === 6) className[0] = 'sat';
   else className[0] = 'weekday';
 
-  const hol = useContext(holidayContext);
+  const hol = useContext(HolidayContext);
   let holName = null;
   if(date.year == year && date.month == month && hol.has(date.date)){
     className[0] = 'sun';

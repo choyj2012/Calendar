@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { selectedDateContext } from "./Container";
 import "./LeftContainer.css";
 import styled from "styled-components";
 import { getSchedulefromServer, setSchedulefromServer } from "./server/server";
+import { SelectedDateContext } from "./Context";
 
 const LeftContainer = () => {
-  const [isLeftOpen, selectedDate] = useContext(selectedDateContext);
+  const [isLeftOpen, selectedDate] = useContext(SelectedDateContext);
 
   let className = ["container-left"];
   isLeftOpen && className.push("left-open");
