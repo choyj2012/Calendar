@@ -6,6 +6,7 @@ import {
   HolidayContext, HolidayProvider, 
   SelectedDateContext, SelectedDateProvider,
   CurrYmContext } from "./Context";
+import { getSchedulefromServer } from "./server/server";
 
 export default function Container({ isLeftOpen, setIsLeftOpen }) {
   return (
@@ -13,8 +14,8 @@ export default function Container({ isLeftOpen, setIsLeftOpen }) {
       <SelectedDateProvider
           isLeftOpen={isLeftOpen}
           setIsLeftOpen={setIsLeftOpen}>
-        <LeftContainer />
-        <CenterContainer />
+          <LeftContainer />
+          <CenterContainer />
       </SelectedDateProvider>
       <RightContainer />
     </div>
@@ -102,6 +103,23 @@ const DateComp = ({ date, day }) => {
 
   const isSelectedDate = (JSON.stringify(selectedDate) === JSON.stringify(date));
 
+  const [schedules, setSchedules] = useState([]);
+  useEffect(() => {
+    let ignore = false;
+    async function request() {
+      const response = await getSchedulefromServer(sessionStorage.getItem('user'), date);
+      if(!ignore) {
+        console.log('request', response.result);
+        setSchedules([...response.result]);
+      }
+    }
+    request();
+
+    return () => {
+      ignore = true;
+    }
+  }, []);
+
   return (
     <div
       className={"date " + (isSelected && isSelectedDate ? "selected-date" : "")}
@@ -109,6 +127,12 @@ const DateComp = ({ date, day }) => {
     >
       <div className={className.join(' ')}>{date.date}</div>
       <div className={className.join(' ')}>{holName}</div>
+
+      <div>
+        {schedules.map(schedule => {
+          return <div key={schedule.id}>{schedule.title}</div>
+        })}
+      </div>
     </div>
   );
 };

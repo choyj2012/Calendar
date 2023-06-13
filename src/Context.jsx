@@ -73,6 +73,8 @@ export const HolidayProvider = ({children}) => {
   )
 }
 
+//LeftContainer와 DateComp에 Context 적용?
+import { getSchedulefromServer, setSchedulefromServer } from "./server/server";
 export const ScheduleContext = createContext(null);
 export const ScheduleProvider = ({children}) => {
 
