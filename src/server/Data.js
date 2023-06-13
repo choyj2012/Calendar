@@ -61,6 +61,7 @@ export const setSchedulefromDB = (username, year, month, date, schedule) => {
   if(!SCHEDULE.has(username)) SCHEDULE.set(username, new Map());
 
   if(month < 10) month = "0" + month;
+  if(date < 10) date = "0" + date;
   const dateStr = "" + year + month + date;
 
   if(!SCHEDULE.get(username).has(dateStr)) SCHEDULE.get(username).set(dateStr, []);
