@@ -1,22 +1,20 @@
 import "./Header.css";
-import { CurrYmContext } from "./MainPage";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-export default function Header({setYM, setIsLeftOpen}) {
+import { CurrYmContext } from "./Context";
+export default function Header({setIsLeftOpen}) {
   return (
     <header className="header-box">
-      <HeaderContents setYM={setYM}
-        setIsLeftOpen={setIsLeftOpen}
-        />
+      <HeaderContents setIsLeftOpen={setIsLeftOpen}/>
     </header>
   )
 }
 
-const HeaderContents = ({setYM, setIsLeftOpen}) => {
+const HeaderContents = ({setIsLeftOpen}) => {
   return (
     <div className="header-contents">
       <Logo setIsLeftOpen={setIsLeftOpen}/>
-      <Search setYM={setYM}/>
+      <Search />
       <UserMenu />
     </div>
   )
@@ -35,8 +33,8 @@ const Logo = ({setIsLeftOpen}) => {
   )
 }
 
-const Search = ({setYM}) => {
-  const {year, month} = useContext(CurrYmContext);
+const Search = () => {
+  const {ym: {year, month}, setYM} = useContext(CurrYmContext);
   let today = `${year}년 ${month}월`;
 
   const onChangeMonth = (n) => {

@@ -80,7 +80,8 @@ import { getSchedulefromDB, setSchedulefromDB } from "./Data";
 export const getSchedulefromServer = async (username, {year, month, date}) => {
   wait(1000);
   const response = {
-    isSuccess: '',
+    isSuccess: 'success',
+    dateStr: '',
     result: [],
   }
 
@@ -92,6 +93,7 @@ export const getSchedulefromServer = async (username, {year, month, date}) => {
   const dbresponse = getSchedulefromDB(username, year, month, date);
   if(dbresponse.isSucess === 'success'){  //db 요청 성공
     response.result = dbresponse.result;
+    response.dateStr = dbresponse.dateStr;
   } else { //실패
     response.isSuccess = 'fail';
   }

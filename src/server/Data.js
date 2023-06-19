@@ -43,11 +43,14 @@ SCHEDULE.get('choyj').set('20230610', [
 export const getSchedulefromDB = (username, year, month, date) => {
   const response = {
     isSucess: 'success',
+    dateStr: '',
     result: [],
   }
 
   if(month < 10) month = "0" + month;
+  if(date < 10) date = "0" + date;
   const dateStr = "" + year + month + date;
+  response.dateStr = dateStr;
 
   if(SCHEDULE.has(username) && SCHEDULE.get(username).has(dateStr))
     response.result = SCHEDULE.get(username).get(dateStr);
@@ -58,6 +61,7 @@ export const setSchedulefromDB = (username, year, month, date, schedule) => {
   if(!SCHEDULE.has(username)) SCHEDULE.set(username, new Map());
 
   if(month < 10) month = "0" + month;
+  if(date < 10) date = "0" + date;
   const dateStr = "" + year + month + date;
 
   if(!SCHEDULE.get(username).has(dateStr)) SCHEDULE.get(username).set(dateStr, []);
