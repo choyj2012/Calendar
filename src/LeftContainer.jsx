@@ -39,6 +39,7 @@ const LeftContents = ({selectedDate}) => {
   }, [trigger]);
 
   const addSchedule = (newSchedule, selectedDate) => {
+    alert('login first');
     setSchedulefromServer(sessionStorage.getItem('user'), selectedDate, newSchedule);
     setTrigger(p => !p);
   }
