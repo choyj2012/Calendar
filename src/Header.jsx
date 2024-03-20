@@ -61,13 +61,13 @@ const Search = () => {
         <button onClick={() => onChangeMonth(1)}>{">"}</button>
         <div>{today}</div>
       </div>
-      <div className="sb-b">
+      {/* <div className="sb-b">
         <button>Search</button>
         <button>Setting</button>
         <select className="select-drop">
           <option value="month">월</option>
         </select>
-      </div>
+      </div> */}
     </div>
   );
 }

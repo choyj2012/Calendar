@@ -20,8 +20,8 @@ const Login = () => {
 
 const LoginForm = () => {
   const [form, setForm] = useState({
-    id: '',
-    pw: ''
+    id: 'test',
+    pw: 'test'
   });
   const [isFail, setIsFail] = useState(false);
   const moveCalendar = useNavigate();

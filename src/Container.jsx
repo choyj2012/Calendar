@@ -17,7 +17,7 @@ export default function Container({ isLeftOpen, setIsLeftOpen }) {
           <LeftContainer />
           <CenterContainer />
       </SelectedDateProvider>
-      <RightContainer />
+      {/* <RightContainer /> */}
     </div>
   );
 }
@@ -109,7 +109,7 @@ const DateComp = ({ date, day }) => {
     async function request() {
       const response = await getSchedulefromServer(sessionStorage.getItem('user'), date);
       if(!ignore) {
-        console.log('request', response.result);
+        //console.log('request', response.result);
         setSchedules([...response.result]);
       }
     }
